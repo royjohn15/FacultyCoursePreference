@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Course Preference Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+            padding: 60px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
+            max-width: 680px;
+            width: 100%;
+            padding: 50px;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #1a1a1a;
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 1.75em;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 40px;
+            font-size: 0.95em;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .required {
+            color: #ef4444;
+            margin-left: 2px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.95em;
+            transition: all 0.2s ease;
+            background: white;
+            color: #1f2937;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233b82f6' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+
+        select:disabled {
+            background-color: #f9fafb;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+            font-family: inherit;
+        }
+
+        .section-title {
+            font-size: 1.1em;
+            color: #111827;
+            margin: 36px 0 8px 0;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .optional-label {
+            color: #9ca3af;
+            font-size: 0.85em;
+            font-weight: normal;
+            margin-left: 6px;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.85em;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.3s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 13px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 32px;
+            letter-spacing: 0.01em;
+        }
+
+        .submit-btn:hover {
+            background: #2d2d2d;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            background: #f0fdf4;
+            color: #166534;
+            padding: 14px 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+            border: 1px solid #bbf7d0;
+            animation: slideIn 0.5s ease-out;
+            font-size: 0.95em;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .preference-number {
+            display: inline-block;
+            background: #f3f4f6;
+            color: #4b5563;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 22px;
+            font-size: 0.8em;
+            margin-right: 8px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .section-title {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Faculty Course Preference Form, Jan - May, 2026</h1>
+        <p class="subtitle">Please select your preferred courses for the upcoming semester</p>
+
+        <form id="courseForm">
+            <div class="form-group">
+                <label for="name">
+                    Full Name <span class="required">*</span>
+                </label>
+                <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                <div class="error-message" id="nameError">Please enter your name</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">
+                    Email Address <span class="required">*</span>
+                </label>
+                <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                <div class="error-message" id="emailError">Please enter a valid email address</div>
+            </div>
+
+            <div class="section-title">Theory Course Preferences</div>
+            <p class="subtitle" style="margin-top: -10px; margin-bottom: 20px;">Select 5 different theory courses in order of preference</p>
+
+            <div class="form-group">
+                <label for="theory1">
+                    <span class="preference-number">1</span> First Preference <span class="required">*</span>
+                </label>
+                <select id="theory1" name="theory1" required>
+                    <option value="">-- Select a theory course --</option>
+                </select>
+                <div class="error-message" id="theory1Error">Please select a theory course</div>
+            </div>
+
+            <div class="form-group">
+                <label for="theory2">
+                    <span class="preference-number">2</span> Second Preference <span class="required">*</span>
+                </label>
+                <select id="theory2" name="theory2" required>
+                    <option value="">-- Select a theory course --</option>
+                </select>
+                <div class="error-message" id="theory2Error">Please select a different theory course</div>
+            </div>
+
+            <div class="form-group">
+                <label for="theory3">
+                    <span class="preference-number">3</span> Third Preference <span class="required">*</span>
+                </label>
+                <select id="theory3" name="theory3" required>
+                    <option value="">-- Select a theory course --</option>
+                </select>
+                <div class="error-message" id="theory3Error">Please select a different theory course</div>
+            </div>
+
+            <div class="form-group">
+                <label for="theory4">
+                    <span class="preference-number">4</span> Fourth Preference <span class="required">*</span>
+                </label>
+                <select id="theory4" name="theory4" required>
+                    <option value="">-- Select a theory course --</option>
+                </select>
+                <div class="error-message" id="theory4Error">Please select a different theory course</div>
+            </div>
+
+            <div class="form-group">
+                <label for="theory5">
+                    <span class="preference-number">5</span> Fifth Preference <span class="required">*</span>
+                </label>
+                <select id="theory5" name="theory5" required>
+                    <option value="">-- Select a theory course --</option>
+                </select>
+                <div class="error-message" id="theory5Error">Please select a different theory course</div>
+            </div>
+
+            <div class="section-title">Lab Course Preferences <span class="optional-label">(Optional)</span></div>
+            <p class="subtitle" style="margin-top: -10px; margin-bottom: 20px;">You may select up to 2 lab courses if desired</p>
+
+            <div class="form-group">
+                <label for="lab1">
+                    <span class="preference-number">1</span> First Lab Preference
+                </label>
+                <select id="lab1" name="lab1">
+                    <option value="">-- Select a lab course (optional) --</option>
+                </select>
+                <div class="error-message" id="lab1Error">Please select a different lab course</div>
+            </div>
+
+            <div class="form-group">
+                <label for="lab2">
+                    <span class="preference-number">2</span> Second Lab Preference
+                </label>
+                <select id="lab2" name="lab2">
+                    <option value="">-- Select a lab course (optional) --</option>
+                </select>
+                <div class="error-message" id="lab2Error">Please select a different lab course</div>
+            </div>
+
+            <div class="form-group">
+                <label for="remarks">
+                    Additional Remarks <span class="optional-label">(Optional)</span>
+                </label>
+                <textarea id="remarks" name="remarks" placeholder="Any additional comments or preferences..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Submit Preferences</button>
+
+            <div class="success-message" id="successMessage">
+                Thank you! Your course preferences have been submitted successfully.
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Course data
+        const courses = [
+            {"CourseNo":"EP3190","CourseName":"Engineering Physics Lab II","Category":"Lab"},
+            {"CourseNo":"EP3291","CourseName":"Engineering Physics Lab IV","Category":"Lab"},
+            {"CourseNo":"ID5841","CourseName":"Quantum Computing Lab","Category":"Lab"},
+            {"CourseNo":"PH1030","CourseName":"Physics Laboratory I","Category":"Lab"},
+            {"CourseNo":"PH1040","CourseName":"Physics Laboratory II","Category":"Lab"},
+            {"CourseNo":"PH2020","CourseName":"Physics Laboratory III","Category":"Lab"},
+            {"CourseNo":"PH2030","CourseName":"Physics Laboratory IV","Category":"Lab"},
+            {"CourseNo":"PH5350","CourseName":"Photonics Lab","Category":"Lab"},
+            {"CourseNo":"PH5540","CourseName":"Advanced Condensed Matter Physics Lab","Category":"Lab"},
+            {"CourseNo":"PH5730","CourseName":"Atomic, Molecular and Optical Physics Lab","Category":"Lab"},
+            {"CourseNo":"PH5850","CourseName":"Instrumentation and Measurement Lab","Category":"Lab"},
+            {"CourseNo":"EP3090","CourseName":"Fundamentals of Semiconductor Devices","Category":"Theory"},
+            {"CourseNo":"EP3130","CourseName":"Thermal and Statistical Physics","Category":"Theory"},
+            {"CourseNo":"EP3180","CourseName":"Quantum Mechanics I","Category":"Theory"},
+            {"CourseNo":"EP3280","CourseName":"Quantum Mechanics II","Category":"Theory"},
+            {"CourseNo":"EP3380","CourseName":"Electrodynamics","Category":"Theory"},
+            {"CourseNo":"EP3440","CourseName":"Materials Science","Category":"Theory"},
+            {"CourseNo":"EP3640","CourseName":"Introduction to Electronic Materials","Category":"Theory"},
+            {"CourseNo":"EP4730","CourseName":"Physics of Electronic Materials","Category":"Theory"},
+            {"CourseNo":"ID3050","CourseName":"Experimental Physics for Engineers","Category":"Theory"},
+            {"CourseNo":"ID5130","CourseName":"Quantum Mechanics for Engineers","Category":"Theory"},
+            {"CourseNo":"ID5840","CourseName":"Quantum Computing","Category":"Theory"},
+            {"CourseNo":"PH1010","CourseName":"Physics I","Category":"Theory"},
+            {"CourseNo":"PH1020","CourseName":"Physics II","Category":"Theory"},
+            {"CourseNo":"PH2010","CourseName":"Physics III","Category":"Theory"},
+            {"CourseNo":"PH2810","CourseName":"Mathematical Physics I","Category":"Theory"},
+            {"CourseNo":"PH3010","CourseName":"Mathematical Physics II","Category":"Theory"},
+            {"CourseNo":"PH3020","CourseName":"Mathematical Physics III","Category":"Theory"},
+            {"CourseNo":"PH3030","CourseName":"Classical Mechanics","Category":"Theory"},
+            {"CourseNo":"PH5060","CourseName":"Introduction to Astrophysics","Category":"Theory"},
+            {"CourseNo":"PH5110","CourseName":"Nuclear and Particle Physics","Category":"Theory"},
+            {"CourseNo":"PH5130","CourseName":"Advanced Statistical Mechanics","Category":"Theory"},
+            {"CourseNo":"PH5210","CourseName":"Physics of Nanostructures","Category":"Theory"},
+            {"CourseNo":"PH5240","CourseName":"Introduction to Soft Condensed Matter Physics","Category":"Theory"},
+            {"CourseNo":"PH5340","CourseName":"Photonics","Category":"Theory"},
+            {"CourseNo":"PH5440","CourseName":"Electronic Properties of Materials","Category":"Theory"},
+            {"CourseNo":"PH5460","CourseName":"Advanced Quantum Mechanics","Category":"Theory"},
+            {"CourseNo":"PH5510","CourseName":"Quantum Field Theory","Category":"Theory"},
+            {"CourseNo":"PH5520","CourseName":"Introduction to General Relativity","Category":"Theory"},
+            {"CourseNo":"PH5530","CourseName":"Introduction to Condensed Matter Physics","Category":"Theory"},
+            {"CourseNo":"PH5630","CourseName":"Computational Physics","Category":"Theory"},
+            {"CourseNo":"PH5640","CourseName":"Molecular Physics","Category":"Theory"},
+            {"CourseNo":"PH5710","CourseName":"Introduction to Quantum Information and Computing","Category":"Theory"},
+            {"CourseNo":"PH5720","CourseName":"Atomic and Optical Physics","Category":"Theory"},
+            {"CourseNo":"PH5840","CourseName":"Instrumentation and Measurement Techniques","Category":"Theory"},
+            {"CourseNo":"PH5860","CourseName":"Advanced Electrodynamics","Category":"Theory"},
+            {"CourseNo":"PH5950","CourseName":"Reading Course","Category":"Theory"},
+            {"CourseNo":"PH6510","CourseName":"Many Body Physics","Category":"Theory"},
+            {"CourseNo":"PH6650","CourseName":"Quantum Optics","Category":"Theory"}
+        ];
+
+        // Separate courses by category
+        const theoryCourses = courses.filter(c => c.Category === 'Theory');
+        const labCourses = courses.filter(c => c.Category === 'Lab');
+
+        // Populate theory dropdowns
+        const theorySelects = ['theory1', 'theory2', 'theory3', 'theory4', 'theory5'];
+        theorySelects.forEach(selectId => {
+            const select = document.getElementById(selectId);
+            theoryCourses.forEach(course => {
+                const option = document.createElement('option');
+                option.value = `${course.CourseNo} - ${course.CourseName}`;
+                option.textContent = `${course.CourseNo} - ${course.CourseName}`;
+                select.appendChild(option);
+            });
+        });
+
+        // Populate lab dropdowns
+        const labSelects = ['lab1', 'lab2'];
+        labSelects.forEach(selectId => {
+            const select = document.getElementById(selectId);
+            labCourses.forEach(course => {
+                const option = document.createElement('option');
+                option.value = `${course.CourseNo} - ${course.CourseName}`;
+                option.textContent = `${course.CourseNo} - ${course.CourseName}`;
+                select.appendChild(option);
+            });
+        });
+
+        // Validation function
+        function validateForm() {
+            let isValid = true;
+
+            // Hide all error messages
+            document.querySelectorAll('.error-message').forEach(msg => msg.classList.remove('show'));
+
+            // Validate name
+            const name = document.getElementById('name').value.trim();
+            if (!name) {
+                document.getElementById('nameError').classList.add('show');
+                isValid = false;
+            }
+
+            // Validate email
+            const email = document.getElementById('email').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) {
+                document.getElementById('emailError').classList.add('show');
+                isValid = false;
+            }
+
+            // Validate theory courses
+            const theoryValues = theorySelects.map(id => document.getElementById(id).value);
+            theorySelects.forEach((id, index) => {
+                const value = theoryValues[index];
+                if (!value) {
+                    document.getElementById(`${id}Error`).classList.add('show');
+                    isValid = false;
+                } else if (theoryValues.indexOf(value) !== index) {
+                    document.getElementById(`${id}Error`).textContent = 'This course has already been selected';
+                    document.getElementById(`${id}Error`).classList.add('show');
+                    isValid = false;
+                }
+            });
+
+            // Validate lab courses (check for duplicates only if both are selected)
+            const lab1Value = document.getElementById('lab1').value;
+            const lab2Value = document.getElementById('lab2').value;
+            
+            if (lab1Value && lab2Value && lab1Value === lab2Value) {
+                document.getElementById('lab2Error').textContent = 'This lab course has already been selected';
+                document.getElementById('lab2Error').classList.add('show');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Form submission
+        document.getElementById('courseForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (!validateForm()) {
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            // Prepare data
+            const formData = {
+                timestamp: new Date().toISOString(),
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                theory1: document.getElementById('theory1').value,
+                theory2: document.getElementById('theory2').value,
+                theory3: document.getElementById('theory3').value,
+                theory4: document.getElementById('theory4').value,
+                theory5: document.getElementById('theory5').value,
+                lab1: document.getElementById('lab1').value || 'N/A',
+                lab2: document.getElementById('lab2').value || 'N/A',
+                remarks: document.getElementById('remarks').value.trim() || 'N/A'
+            };
+
+            try {
+                // Replace this URL with your Google Apps Script Web App URL
+                const scriptURL = 'https://script.google.com/macros/s/AKfycbzoWXG2351Lnjm6JtWG2Pc-tPpc9LIlUwvIbgQIIQISNa_tge5pX26SIVnWJLD7iL7b/exec';
+                
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                // Show success message
+                document.getElementById('successMessage').classList.add('show');
+                document.getElementById('courseForm').reset();
+                
+                // Scroll to success message
+                document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('successMessage').classList.remove('show');
+                }, 5000);
+
+            } catch (error) {
+                alert('An error occurred. Please try again or contact the administrator.');
+                console.error('Error:', error);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Preferences';
+            }
+        });
+
+        // Real-time validation feedback
+        theorySelects.forEach(id => {
+            document.getElementById(id).addEventListener('change', function() {
+                const errorMsg = document.getElementById(`${id}Error`);
+                errorMsg.classList.remove('show');
+            });
+        });
+
+        document.getElementById('name').addEventListener('input', function() {
+            document.getElementById('nameError').classList.remove('show');
+        });
+
+        document.getElementById('email').addEventListener('input', function() {
+            document.getElementById('emailError').classList.remove('show');
+        });
+    </script>
+</body>
+</html>
