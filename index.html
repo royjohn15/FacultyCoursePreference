@@ -318,27 +318,37 @@
                 <div class="error-message" id="theory5Error">Please select a different theory course</div>
             </div>
 
-            <div class="section-title">Lab Course Preferences <span class="optional-label">(Optional)</span></div>
-            <p class="subtitle" style="margin-top: -10px; margin-bottom: 20px;">You may select up to 2 lab courses if desired</p>
+            <div class="section-title">Lab Course Preferences</div>
+            <p class="subtitle" style="margin-top: -10px; margin-bottom: 20px;">Select 3 different lab courses in order of preference</p>
 
             <div class="form-group">
                 <label for="lab1">
-                    <span class="preference-number">1</span> First Lab Preference
+                    <span class="preference-number">1</span> First Lab Preference <span class="required">*</span>
                 </label>
-                <select id="lab1" name="lab1">
-                    <option value="">-- Select a lab course (optional) --</option>
+                <select id="lab1" name="lab1" required>
+                    <option value="">-- Select a lab course --</option>
                 </select>
-                <div class="error-message" id="lab1Error">Please select a different lab course</div>
+                <div class="error-message" id="lab1Error">Please select a lab course</div>
             </div>
 
             <div class="form-group">
                 <label for="lab2">
-                    <span class="preference-number">2</span> Second Lab Preference
+                    <span class="preference-number">2</span> Second Lab Preference <span class="required">*</span>
                 </label>
-                <select id="lab2" name="lab2">
-                    <option value="">-- Select a lab course (optional) --</option>
+                <select id="lab2" name="lab2" required>
+                    <option value="">-- Select a lab course --</option>
                 </select>
                 <div class="error-message" id="lab2Error">Please select a different lab course</div>
+            </div>
+
+            <div class="form-group">
+                <label for="lab3">
+                    <span class="preference-number">3</span> Third Lab Preference <span class="required">*</span>
+                </label>
+                <select id="lab3" name="lab3" required>
+                    <option value="">-- Select a lab course --</option>
+                </select>
+                <div class="error-message" id="lab3Error">Please select a different lab course</div>
             </div>
 
             <div class="form-group">
@@ -372,7 +382,6 @@
             {"CourseNo":"PH1040","CourseName":"Physics Laboratory II","Category":"Lab"},
             {"CourseNo":"PH2070","CourseName":"Introduction to Biological Physics","Category":"Theory"},
             {"CourseNo":"PH2080","CourseName":"Physics Lab IV","Category":"Lab"},
-            {"CourseNo":"PH3500","CourseName":"Classical Physics","Category":"Theory"},
             {"CourseNo":"PH5020","CourseName":"Electromagnetic Theory","Category":"Theory"},
             {"CourseNo":"PH5080","CourseName":"Statistical Physics","Category":"Theory"},
             {"CourseNo":"PH5120","CourseName":"Physics Lab II (PG)","Category":"Lab"},
@@ -390,6 +399,7 @@
             {"CourseNo":"PH5680","CourseName":"Superconductivity & Its Applications","Category":"Theory"},
             {"CourseNo":"PH5720","CourseName":"Numerical Methods and Programming Lab","Category":"Lab"},
             {"CourseNo":"PH5730","CourseName":"Methods of Computational Physics","Category":"Theory"},
+            {"CourseNo":"PH5800","CourseName":"Classical Physics","Category":"Theory"},
             {"CourseNo":"PH5810","CourseName":"Introduction to Softmatter Physics","Category":"Theory"},
             {"CourseNo":"PH5811","CourseName":"Advanced Particle Physics","Category":"Theory"},
             {"CourseNo":"PH5813","CourseName":"Principles of Nanophotonics","Category":"Theory"},
@@ -427,7 +437,7 @@
         });
 
         // Populate lab dropdowns
-        const labSelects = ['lab1', 'lab2'];
+        const labSelects = ['lab1', 'lab2', 'lab3'];
         labSelects.forEach(selectId => {
             const select = document.getElementById(selectId);
             labCourses.forEach(course => {
@@ -474,15 +484,20 @@
                 }
             });
 
-            // Validate lab courses (check for duplicates only if both are selected)
-            const lab1Value = document.getElementById('lab1').value;
-            const lab2Value = document.getElementById('lab2').value;
-            
-            if (lab1Value && lab2Value && lab1Value === lab2Value) {
-                document.getElementById('lab2Error').textContent = 'This lab course has already been selected';
-                document.getElementById('lab2Error').classList.add('show');
-                isValid = false;
-            }
+            // Validate lab courses
+            const labValues = labSelects.map(id => document.getElementById(id).value);
+            labSelects.forEach((id, index) => {
+                const value = labValues[index];
+                if (!value) {
+                    document.getElementById(`${id}Error`).textContent = 'Please select a lab course';
+                    document.getElementById(`${id}Error`).classList.add('show');
+                    isValid = false;
+                } else if (labValues.indexOf(value) !== index) {
+                    document.getElementById(`${id}Error`).textContent = 'This lab course has already been selected';
+                    document.getElementById(`${id}Error`).classList.add('show');
+                    isValid = false;
+                }
+            });
 
             return isValid;
         }
@@ -509,8 +524,9 @@
                 theory3: document.getElementById('theory3').value,
                 theory4: document.getElementById('theory4').value,
                 theory5: document.getElementById('theory5').value,
-                lab1: document.getElementById('lab1').value || 'N/A',
-                lab2: document.getElementById('lab2').value || 'N/A',
+                lab1: document.getElementById('lab1').value,
+                lab2: document.getElementById('lab2').value,
+                lab3: document.getElementById('lab3').value,
                 remarks: document.getElementById('remarks').value.trim() || 'N/A'
             };
 
